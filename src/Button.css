@@ -1,0 +1,76 @@
+.tck-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.tck-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.tck-btn__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Sizes */
+.tck-btn--default,
+.tck-btn--lg {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 16px;
+}
+.tck-btn--md {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+/* Base status color (used by variants below) */
+.tck-btn--status-default { --tck-color: #14b8a6; }
+.tck-btn--status-success { --tck-color: #16a34a; }
+.tck-btn--status-error { --tck-color: #dc2626; }
+.tck-btn--status-warning { --tck-color: #d97706; }
+.tck-btn--status-information { --tck-color: #2563eb; }
+.tck-btn--status-secondary { --tck-color: #6b7280; }
+
+/* Variants */
+.tck-btn--default {
+  background-color: var(--tck-color);
+  color: #ffffff;
+}
+.tck-btn--default:hover:not(:disabled) { filter: brightness(0.92); }
+
+.tck-btn--subtle {
+  background-color: color-mix(in srgb, var(--tck-color) 12%, transparent);
+  color: var(--tck-color);
+}
+.tck-btn--subtle:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--tck-color) 20%, transparent);
+}
+
+.tck-btn--outline {
+  background-color: transparent;
+  border-color: var(--tck-color);
+  color: var(--tck-color);
+}
+.tck-btn--outline:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--tck-color) 8%, transparent);
+}
+
+.tck-btn--transparent {
+  background-color: transparent;
+  color: var(--tck-color);
+}
+.tck-btn--transparent:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--tck-color) 8%, transparent);
+}
