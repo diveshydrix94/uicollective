@@ -1,0 +1,202 @@
+/* Switch — token-driven. Every colour is a design-token CSS variable with the
+   Figma value as its fallback, so themes override without touching this file. */
+
+.tck-switch {
+  display: inline-flex;
+  align-items: flex-start;
+  font-family: var(--tck-font-paragraph, 'Inter', system-ui, sans-serif);
+  cursor: pointer;
+}
+
+.tck-switch--disabled {
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------- control */
+
+.tck-switch__control {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+/* The real input sits invisibly over the track: native keyboard, focus and
+   checked semantics, with the track purely presentational. */
+.tck-switch__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.tck-switch__track {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: var(--tck-switch-track-w);
+  height: var(--tck-switch-track-h);
+  padding: var(--tck-switch-inset);
+  border: 1px solid var(--tck-switch-border);
+  border-radius: 50px;
+  background-color: var(--tck-switch-bg);
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.tck-switch__knob {
+  box-sizing: border-box;
+  width: var(--tck-switch-knob);
+  height: var(--tck-switch-knob);
+  border-radius: 50px;
+  background-color: var(--tck-switch-knob-bg);
+  box-shadow: 0 0 3px 2px var(--tck-switch-knob-shadow, rgba(0, 0, 0, 0.1));
+  transform: translateX(0);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.tck-switch__input:checked ~ .tck-switch__track .tck-switch__knob {
+  transform: translateX(var(--tck-switch-travel));
+}
+
+/* Always-visible keyboard focus (WCAG 2.4.7) — Figma: 2px ring, 5px offset. */
+.tck-switch__input:focus-visible ~ .tck-switch__track {
+  outline: var(--tck-border-width-sm, 2px) solid
+    var(--tck-border-primary-focus, #38404a);
+  outline-offset: 5px;
+}
+
+/* ------------------------------------------------------------------ sizes */
+
+/* lg — track 48x26, knob 20, travel 22 (48 - 2 border - 4 padding - 20). */
+.tck-switch--lg {
+  gap: 18px;
+}
+.tck-switch--lg .tck-switch__track {
+  --tck-switch-track-w: 48px;
+  --tck-switch-track-h: 26px;
+  --tck-switch-inset: 2px;
+  --tck-switch-knob: 20px;
+  --tck-switch-travel: 22px;
+}
+
+/* md — track 26x14, knob 12, travel 12 (26 - 2 border - 0 padding - 12). */
+.tck-switch--md {
+  gap: 12px;
+  align-items: center;
+}
+.tck-switch--md .tck-switch__track {
+  --tck-switch-track-w: 26px;
+  --tck-switch-track-h: 14px;
+  --tck-switch-inset: 0px;
+  --tck-switch-knob: 12px;
+  --tck-switch-travel: 12px;
+}
+
+/* ------------------------------------------------------------------- text */
+
+.tck-switch__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tck-switch__label {
+  color: var(--tck-text-default-body, #252b33);
+  font-size: var(--tck-paragraph-md-size, 16px);
+  line-height: var(--tck-paragraph-md-line-height, 24px);
+  font-weight: 400;
+}
+
+.tck-switch__sub-label {
+  color: var(--tck-text-default-caption, #4f5864);
+  font-size: var(--tck-paragraph-sm-size, 14px);
+  line-height: var(--tck-paragraph-sm-line-height, 20px);
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------- feedback: base */
+
+.tck-switch--feedback-default .tck-switch__track {
+  --tck-switch-bg: var(--tck-surface-primary-default-subtle, #f6f8fa);
+  --tck-switch-border: var(--tck-border-primary-default-subtle, #e0e5eb);
+  --tck-switch-knob-bg: var(--tck-surface-primary-default, #252b33);
+  --tck-switch-knob-shadow: rgba(0, 0, 0, 0.1);
+}
+.tck-switch--feedback-default
+  .tck-switch__input:checked
+  ~ .tck-switch__track {
+  --tck-switch-bg: var(--tck-surface-primary-default, #252b33);
+  --tck-switch-border: var(--tck-border-primary-default, #38404a);
+  --tck-switch-knob-bg: var(--tck-surface-primary-default-subtle, #f6f8fa);
+  --tck-switch-knob-shadow: rgba(255, 255, 255, 0.1);
+}
+
+.tck-switch--feedback-error .tck-switch__track {
+  --tck-switch-bg: var(--tck-surface-error-default-subtle, #fff2f2);
+  --tck-switch-border: var(--tck-border-error-default-subtle, #fde6e6);
+  --tck-switch-knob-bg: var(--tck-surface-error-default, #c94040);
+  --tck-switch-knob-shadow: rgba(0, 0, 0, 0.1);
+}
+.tck-switch--feedback-error .tck-switch__input:checked ~ .tck-switch__track {
+  --tck-switch-bg: var(--tck-surface-error-default, #c94040);
+  --tck-switch-border: var(--tck-border-error-default, #c94040);
+  --tck-switch-knob-bg: var(--tck-surface-error-default-subtle, #fff2f2);
+  --tck-switch-knob-shadow: rgba(255, 255, 255, 0.1);
+}
+
+/* -------------------------------------------------------- feedback: hover */
+
+.tck-switch--feedback-default
+  .tck-switch__input:hover:not(:disabled)
+  ~ .tck-switch__track {
+  --tck-switch-border: var(--tck-border-primary-default-hover, #161a20);
+  box-shadow: 0 1px 1px 0 rgba(37, 43, 51, 0.2),
+    0 0 0 1px rgba(37, 43, 51, 0.5), 0 1px 3px 0 rgba(37, 43, 51, 0.1),
+    inset 0 0 0 4px rgba(37, 43, 51, 0.2);
+}
+.tck-switch--feedback-default
+  .tck-switch__input:checked:hover:not(:disabled)
+  ~ .tck-switch__track {
+  --tck-switch-bg: var(--tck-surface-primary-default-hover, #161a20);
+  --tck-switch-knob-bg: var(
+    --tck-surface-primary-default-subtle-hover,
+    #f0f3f7
+  );
+}
+
+.tck-switch--feedback-error
+  .tck-switch__input:hover:not(:disabled)
+  ~ .tck-switch__track {
+  --tck-switch-border: var(--tck-border-error-default, #c94040);
+  box-shadow: 0 1px 1px 0 rgba(201, 64, 64, 0.2),
+    0 0 0 1px rgba(201, 64, 64, 0.5), 0 1px 3px 0 rgba(201, 64, 64, 0.1),
+    inset 0 0 0 4px rgba(201, 64, 64, 0.2);
+}
+
+/* ----------------------------------------------------------------- states */
+
+.tck-switch__input:disabled ~ .tck-switch__track {
+  --tck-switch-bg: var(--tck-surface-disabled-default, #f9f9f9) !important;
+  --tck-switch-border: var(--tck-border-disabled-on-color, #38404a) !important;
+  --tck-switch-knob-bg: var(--tck-icon-disabled-on-color, #8695a7) !important;
+  box-shadow: none;
+}
+
+.tck-switch--disabled .tck-switch__label,
+.tck-switch--disabled .tck-switch__sub-label {
+  opacity: 0.5;
+}
+
+/* Respect users who ask for reduced motion (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  .tck-switch__track,
+  .tck-switch__knob {
+    transition: none;
+  }
+}

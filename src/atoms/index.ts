@@ -2,3 +2,4 @@
 // New atoms are appended here by the /figma-connect pipeline.
 export * from './Button';
 export * from './Link';
+export * from './Switch';
