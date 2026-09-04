@@ -1,0 +1,85 @@
+.tck-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: inherit;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+/* Always-visible keyboard focus (WCAG 2.4.7). :focus-visible keeps the ring off
+   mouse clicks but on for Tab / programmatic focus. */
+.tck-link:focus-visible {
+  outline: 2px solid var(--tck-focus-ring, #2563eb);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.tck-link__icon {
+  display: inline-flex;
+  align-items: center;
+}
+.tck-link__icon svg,
+.tck-link__icon img {
+  width: 1em;
+  height: 1em;
+}
+
+/* Sizes (Figma: Size). font-size / line-height per token scale. */
+.tck-link--lg {
+  font-size: 20px;
+  line-height: 28px;
+}
+.tck-link--md {
+  font-size: 16px;
+  line-height: 24px;
+}
+.tck-link--default {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Semantic color (Figma: State). Drives text + icon via currentColor. */
+.tck-link--status-default { --tck-link-color: #38404a; --tck-link-color-hover: #252b33; }
+.tck-link--status-information { --tck-link-color: #1346a2; --tck-link-color-hover: #0f3a86; }
+.tck-link--status-error { --tck-link-color: #a82222; --tck-link-color-hover: #8a1c1c; }
+.tck-link--status-warning { --tck-link-color: #a24613; --tck-link-color-hover: #853a10; }
+.tck-link--status-success { --tck-link-color: #17825a; --tck-link-color-hover: #126b4a; }
+
+.tck-link {
+  color: var(--tck-link-color, #38404a);
+  text-decoration-color: currentColor;
+}
+
+/* standard: underline appears on hover / focus. */
+.tck-link--standard:hover,
+.tck-link--standard:focus-visible {
+  color: var(--tck-link-color-hover, #252b33);
+  text-decoration: underline;
+}
+
+/* inline: sits within body copy, so it is always underlined. */
+.tck-link--inline {
+  text-decoration: underline;
+}
+.tck-link--inline:hover,
+.tck-link--inline:focus-visible {
+  color: var(--tck-link-color-hover, #252b33);
+}
+
+/* Disabled (Figma: Status=disabled). aria-disabled drives the styling. */
+.tck-link--disabled,
+.tck-link[aria-disabled='true'] {
+  color: #8695a7;
+  text-decoration: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tck-link {
+    transition: none;
+  }
+}

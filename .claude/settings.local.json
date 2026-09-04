@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx @figma/code-connect:*)",
+      "Bash(set -a)",
+      "Bash([ -f .env ])",
+      "Bash(. ./.env)",
+      "Bash(set +a)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(cat:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

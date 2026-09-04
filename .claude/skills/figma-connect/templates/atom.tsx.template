@@ -1,0 +1,37 @@
+// Template: ATOM. Placeholders: {{Name}} PascalCase, {{name}} kebab/lower.
+// Atoms wrap a single native element and style it with tokens. Scratch code OK.
+import React from 'react';
+import './{{Name}}.css';
+
+export type {{Name}}Variant = 'default' /* | ... from Figma "Type" */;
+export type {{Name}}Size = 'default' | 'md' | 'lg';
+
+export interface {{Name}}Props
+  extends React.HTMLAttributes<HTMLElement /* the real native element */> {
+  variant?: {{Name}}Variant;
+  size?: {{Name}}Size;
+  disabled?: boolean;
+}
+
+/**
+ * {{Name}} — atom.
+ * Accessibility: <fill in the a11y contract you satisfied — role, keys, name,
+ * focus, state attributes>.
+ */
+export const {{Name}} = React.forwardRef<HTMLElement, {{Name}}Props>(
+  ({ variant = 'default', size = 'default', className, ...rest }, ref) => {
+    const classes = [
+      'tck-{{name}}',
+      `tck-{{name}}--${variant}`,
+      `tck-{{name}}--${size}`,
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    return <element ref={ref} className={classes} {...rest} />;
+  },
+);
+
+{{Name}}.displayName = '{{Name}}';
+export default {{Name}};

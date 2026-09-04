@@ -1,0 +1,3 @@
+// Template: per-component barrel. Placeholder: {{Name}}.
+export { {{Name}}, default } from './{{Name}}';
+export type { {{Name}}Props, {{Name}}Variant, {{Name}}Size } from './{{Name}}';

@@ -1,9 +1,5 @@
 {
   "codeConnect": {
-    "parser": "react",
-    "include": ["src/**/*.figma.tsx"],
-    "importPaths": {
-      "src/*": "ui-collective-figma-code"
-    }
+    "include": ["src/**/*.figma.ts"]
   }
 }

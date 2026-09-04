@@ -1,0 +1,31 @@
+// Template: MOLECULE. Placeholders: {{Name}} PascalCase, {{name}} kebab/lower.
+// A molecule composes ATOMS ONLY. No scratch DOM primitives that duplicate an atom.
+// Layout wrappers (div/label/fieldset) + glue CSS are fine — that is composition.
+import React from 'react';
+import './{{Name}}.css';
+// Import every child from the atoms barrel. If an atom is missing, STOP and
+// connect it first — do NOT inline a primitive here.
+import { /* Atom1, Atom2 */ } from '../../atoms';
+
+export interface {{Name}}Props {
+  // Map Figma variant properties to typed props.
+  // Wire accessibility relationships here (htmlFor/id, aria-describedby, etc.).
+}
+
+/**
+ * {{Name}} — molecule composed from atoms.
+ * Accessibility: <how the composed atoms are linked — labels, described-by,
+ * error/invalid propagation>.
+ */
+export const {{Name}} = React.forwardRef<HTMLDivElement, {{Name}}Props>(
+  (props, ref) => {
+    return (
+      <div ref={ref} className="tck-{{name}}">
+        {/* Compose atoms only. e.g. <Label/> + <Input/> + helper text */}
+      </div>
+    );
+  },
+);
+
+{{Name}}.displayName = '{{Name}}';
+export default {{Name}};

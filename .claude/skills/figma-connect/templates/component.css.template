@@ -1,0 +1,28 @@
+/* Template: component CSS. Token-based only — NO literal colors/spacing/fonts.
+   Placeholder: {{name}} kebab/lower. Mirror Button.css structure. */
+
+.tck-{{name}} {
+  /* layout + token-driven visuals via CSS variables */
+  font-family: inherit;
+}
+
+/* Always-visible keyboard focus (WCAG 2.4.7) */
+.tck-{{name}}:focus-visible {
+  outline: 2px solid var(--tck-focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+.tck-{{name}}[aria-disabled='true'],
+.tck-{{name}}:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Variants — drive color/shape from tokens (e.g. --tck-color) */
+/* .tck-{{name}}--default { ... } */
+
+@media (prefers-reduced-motion: reduce) {
+  .tck-{{name}} {
+    transition: none;
+  }
+}

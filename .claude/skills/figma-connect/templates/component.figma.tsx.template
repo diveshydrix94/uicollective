@@ -1,0 +1,29 @@
+// Template: Code Connect mapping (AUTHORING INPUT). Placeholders: {{Name}}, {{NODE_URL}}.
+// Property/layer names must EXACTLY match Figma (incl. emoji/arrow prefixes).
+//
+// Code Connect CLI v2 no longer publishes this parser-based `.figma.tsx` directly.
+// Author it here (it's the easy, declarative format), then the validate+publish gate
+// runs `npm run cc:migrate` (figma connect migrate --delete) to convert it into the
+// canonical `{{Name}}.figma.ts` TEMPLATE file that v2 parses & publishes. Do NOT
+// hand-write the .figma.ts — let migrate generate it. See references/code-connect.md.
+import React from 'react';
+import figma from '@figma/code-connect';
+import { {{Name}} } from './{{Name}}';
+
+figma.connect({{Name}}, '{{NODE_URL}}', {
+  props: {
+    // label: figma.string('Label'),
+    // variant: figma.enum('Type', { default: 'default' }),
+    // size: figma.enum('Size', { default: 'default', md: 'md', lg: 'lg' }),
+    // disabled: figma.enum('Status', { disabled: true, default: false }),
+    // iconLeft: figma.boolean('Icon left', {
+    //   true: figma.instance('↘Icon left'),
+    //   false: undefined,
+    // }),
+  },
+  example: (props) => (
+    <{{Name}} /* {...map props here} */>
+      {/* {props.label} */}
+    </{{Name}}>
+  ),
+});

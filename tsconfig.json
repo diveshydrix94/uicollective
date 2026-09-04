@@ -10,6 +10,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "ui-collective-figma-code": ["src/index.ts"],
+      "ui-collective-figma-code/*": ["src/*"]
+    },
     "types": ["react", "@figma/code-connect/figma-types"]
   },
   "include": ["src"]

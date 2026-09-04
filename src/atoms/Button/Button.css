@@ -12,14 +12,53 @@
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-.tck-btn:disabled {
+.tck-btn:disabled,
+.tck-btn[aria-disabled='true'] {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+/* Always-visible keyboard focus (WCAG 2.4.7). Uses :focus-visible so it does
+   not fire on mouse press but does on Tab / programmatic focus. */
+.tck-btn:focus-visible {
+  outline: 2px solid var(--tck-focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+.tck-btn--full {
+  width: 100%;
 }
 
 .tck-btn__icon {
   display: inline-flex;
   align-items: center;
+}
+
+/* Loading spinner */
+.tck-btn--loading {
+  cursor: progress;
+}
+.tck-btn__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: tck-btn-spin 0.6s linear infinite;
+}
+@keyframes tck-btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Respect users who ask for reduced motion (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  .tck-btn {
+    transition: none;
+  }
+  .tck-btn__spinner {
+    animation-duration: 1.5s;
+  }
 }
 
 /* Sizes */
