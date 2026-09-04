@@ -1,0 +1,209 @@
+/* Radio — token-driven. Every colour is a design-token CSS variable with the
+   Figma value as its fallback, so themes override without touching this file. */
+
+.tck-radio {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--tck-font-paragraph, 'Inter', system-ui, sans-serif);
+  cursor: pointer;
+}
+
+.tck-radio--disabled {
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------- control */
+
+.tck-radio__control {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+/* The real input sits invisibly over the circle: native radio role, checked
+   state, arrow-key group navigation and focus all come for free. The overlay
+   is inflated so the hit target stays >= 24x24 even at `md` (WCAG 2.5.8). */
+.tck-radio__input {
+  position: absolute;
+  inset: var(--tck-radio-hit-inset);
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.tck-radio__circle {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tck-radio-size);
+  height: var(--tck-radio-size);
+  border: var(--tck-border-width-xs, 1px) solid var(--tck-radio-border);
+  border-radius: 50%;
+  background-color: var(--tck-radio-bg);
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* -------------------------------------------------------------------- dot */
+
+.tck-radio__dot {
+  width: var(--tck-radio-dot);
+  height: var(--tck-radio-dot);
+  border-radius: 50%;
+  background-color: var(--tck-radio-dot-color);
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.tck-radio__input:checked ~ .tck-radio__circle .tck-radio__dot {
+  opacity: 1;
+}
+
+/* Always-visible keyboard focus (WCAG 2.4.7) — Figma: 2px ring, 2px offset. */
+.tck-radio__input:focus-visible ~ .tck-radio__circle {
+  outline: var(--tck-border-width-sm, 2px) solid var(--tck-radio-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ sizes */
+
+/* lg — circle 28, dot 12. Overlay already exceeds 24px. */
+.tck-radio--lg .tck-radio__control {
+  --tck-radio-size: 28px;
+  --tck-radio-dot: 12px;
+  --tck-radio-hit-inset: 0px;
+}
+
+/* md — circle 20, dot 8. Overlay inflated by 2px each side -> 24px. */
+.tck-radio--md .tck-radio__control {
+  --tck-radio-size: 20px;
+  --tck-radio-dot: 8px;
+  --tck-radio-hit-inset: -2px;
+}
+
+/* ------------------------------------------------------------------- text */
+
+.tck-radio__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tck-radio__label {
+  color: var(--tck-text-default-body, #252b33);
+  font-weight: 400;
+}
+
+.tck-radio__sub-label {
+  color: var(--tck-text-default-caption, #4f5864);
+  font-weight: 400;
+}
+
+/* lg — label body-lg (20/28), sub-label body-md (16/24). */
+.tck-radio--lg .tck-radio__label {
+  font-size: var(--tck-paragraph-lg-size, 20px);
+  line-height: var(--tck-paragraph-lg-line-height, 28px);
+}
+.tck-radio--lg .tck-radio__sub-label {
+  font-size: var(--tck-paragraph-md-size, 16px);
+  line-height: var(--tck-paragraph-md-line-height, 24px);
+}
+
+/* md — label body-md (16/24), sub-label body-sm (14/20). */
+.tck-radio--md .tck-radio__label {
+  font-size: var(--tck-paragraph-md-size, 16px);
+  line-height: var(--tck-paragraph-md-line-height, 24px);
+}
+.tck-radio--md .tck-radio__sub-label {
+  font-size: var(--tck-paragraph-sm-size, 14px);
+  line-height: var(--tck-paragraph-sm-line-height, 20px);
+}
+
+/* ------------------------------------------------------------------- base */
+
+/* Unselected is identical for both feedback values — State only recolours the
+   filled circle and the focus ring. */
+.tck-radio__circle {
+  --tck-radio-bg: var(--tck-surface-default, #ffffff);
+  --tck-radio-border: var(--tck-border-default, #c8d0da);
+  --tck-radio-dot-color: var(--tck-icon-primary-on-color, #fbfcfd);
+}
+
+.tck-radio__control {
+  --tck-radio-focus-ring: var(--tck-border-primary-focus, #38404a);
+}
+
+/* --------------------------------------------------------- filled: default */
+
+.tck-radio--feedback-default .tck-radio__input:checked ~ .tck-radio__circle {
+  --tck-radio-bg: var(--tck-surface-primary-default, #252b33);
+  --tck-radio-border: var(--tck-border-primary-default, #38404a);
+}
+
+/* ----------------------------------------------------------- filled: error */
+
+/* Only a *selected* error radio takes the error focus ring — Figma keeps the
+   unselected error ring on the primary token. */
+.tck-radio--feedback-error .tck-radio__input:checked ~ .tck-radio__circle {
+  --tck-radio-bg: var(--tck-surface-error-default, #c94040);
+  --tck-radio-border: var(--tck-border-error-default, #c94040);
+  --tck-radio-focus-ring: var(--tck-border-error-focus, #c94040);
+}
+
+/* ------------------------------------------------------------------ hover */
+
+/* Figma "hover/secondary" — the unselected hover, identical under both
+   feedback values: neutral tint plus four outer shadows. */
+.tck-radio__input:hover:not(:disabled) ~ .tck-radio__circle {
+  --tck-radio-bg: var(--tck-surface-primary-default-subtle-hover, #f0f3f7);
+  box-shadow: 0 0 0 4px rgba(200, 208, 218, 0.2),
+    0 1px 1px 0 rgba(200, 208, 218, 0.2), 0 0 0 1px rgba(200, 208, 218, 0.5),
+    0 1px 3px 0 rgba(200, 208, 218, 0.1);
+}
+
+/* Figma "hover/default" — the 4px ring is an INNER shadow here. */
+.tck-radio--feedback-default
+  .tck-radio__input:hover:not(:disabled):checked
+  ~ .tck-radio__circle {
+  --tck-radio-bg: var(--tck-surface-primary-default-hover, #161a20);
+  box-shadow: 0 1px 3px 0 rgba(37, 43, 51, 0.1),
+    0 0 0 1px rgba(37, 43, 51, 0.5), 0 1px 1px 0 rgba(37, 43, 51, 0.2),
+    inset 0 0 0 4px rgba(37, 43, 51, 0.2);
+}
+
+/* Figma "hover/error" — same geometry as hover/secondary, error-tinted. */
+.tck-radio--feedback-error
+  .tck-radio__input:hover:not(:disabled):checked
+  ~ .tck-radio__circle {
+  --tck-radio-bg: var(--tck-surface-error-default-hover, #a82222);
+  box-shadow: 0 0 0 4px rgba(201, 64, 64, 0.2),
+    0 1px 1px 0 rgba(201, 64, 64, 0.2), 0 0 0 1px rgba(201, 64, 64, 0.5),
+    0 1px 3px 0 rgba(201, 64, 64, 0.1);
+}
+
+/* --------------------------------------------------------------- disabled */
+
+/* Unselected disabled keeps the neutral border; only the fill greys out. */
+.tck-radio__input:disabled ~ .tck-radio__circle {
+  --tck-radio-bg: var(--tck-surface-disabled-default, #f9f9f9) !important;
+  box-shadow: none;
+}
+
+/* Selected disabled keeps a dark rim so the choice stays readable. */
+.tck-radio__input:disabled:checked ~ .tck-radio__circle {
+  --tck-radio-border: var(--tck-border-disabled-on-color, #38404a) !important;
+  --tck-radio-dot-color: var(--tck-icon-disabled-on-color, #8695a7) !important;
+}
+
+/* Respect users who ask for reduced motion (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  .tck-radio__circle,
+  .tck-radio__dot {
+    transition: none;
+  }
+}

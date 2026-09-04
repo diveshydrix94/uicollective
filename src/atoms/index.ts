@@ -3,4 +3,5 @@
 export * from './Button';
 export * from './Checkbox';
 export * from './Link';
+export * from './Radio';
 export * from './Switch';
