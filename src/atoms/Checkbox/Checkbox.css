@@ -1,0 +1,234 @@
+/* Checkbox — token-driven. Every colour is a design-token CSS variable with the
+   Figma value as its fallback, so themes override without touching this file. */
+
+.tck-checkbox {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--tck-font-paragraph, 'Inter', system-ui, sans-serif);
+  cursor: pointer;
+}
+
+.tck-checkbox--disabled {
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------- control */
+
+.tck-checkbox__control {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+/* The real input sits invisibly over the box: native keyboard, focus, checked
+   and indeterminate semantics, with the box purely presentational. The overlay
+   is inflated so the hit target stays >= 24x24 even at `md` (WCAG 2.5.8). */
+.tck-checkbox__input {
+  position: absolute;
+  inset: var(--tck-checkbox-hit-inset);
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.tck-checkbox__box {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tck-checkbox-size);
+  height: var(--tck-checkbox-size);
+  border: var(--tck-border-width-xs, 1px) solid var(--tck-checkbox-border);
+  border-radius: var(--tck-checkbox-radius);
+  background-color: var(--tck-checkbox-bg);
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* ------------------------------------------------------------------ glyph */
+
+.tck-checkbox__glyph {
+  width: var(--tck-checkbox-glyph);
+  height: var(--tck-checkbox-glyph);
+  fill: var(--tck-checkbox-glyph-color);
+  opacity: 0;
+  transition: opacity 0.15s ease, fill 0.15s ease;
+}
+
+/* Both glyphs share the same grid cell so swapping them never reflows. */
+.tck-checkbox__glyph--dash {
+  margin-left: calc(-1 * var(--tck-checkbox-glyph));
+}
+
+.tck-checkbox__input:checked ~ .tck-checkbox__box .tck-checkbox__glyph--check,
+.tck-checkbox__input:indeterminate
+  ~ .tck-checkbox__box
+  .tck-checkbox__glyph--dash {
+  opacity: 1;
+}
+
+/* Mixed wins over checked — Figma has no "selected + indeterminate" variant. */
+.tck-checkbox__input:indeterminate
+  ~ .tck-checkbox__box
+  .tck-checkbox__glyph--check {
+  opacity: 0;
+}
+
+/* Always-visible keyboard focus (WCAG 2.4.7) — Figma: 2px ring, 5px offset. */
+.tck-checkbox__input:focus-visible ~ .tck-checkbox__box {
+  outline: var(--tck-border-width-sm, 2px) solid var(--tck-checkbox-focus-ring);
+  outline-offset: 5px;
+}
+
+/* ------------------------------------------------------------------ sizes */
+
+/* lg — box 28, glyph 24, radius 8. Overlay already exceeds 24px. */
+.tck-checkbox--lg .tck-checkbox__control {
+  --tck-checkbox-size: 28px;
+  --tck-checkbox-glyph: 24px;
+  --tck-checkbox-radius: var(--tck-border-radius-200, 8px);
+  --tck-checkbox-hit-inset: 0px;
+}
+
+/* md — box 20, glyph 16, radius 4. Overlay inflated by 2px each side -> 24px. */
+.tck-checkbox--md .tck-checkbox__control {
+  --tck-checkbox-size: 20px;
+  --tck-checkbox-glyph: 16px;
+  --tck-checkbox-radius: var(--tck-border-radius-100, 4px);
+  --tck-checkbox-hit-inset: -2px;
+}
+
+/* ------------------------------------------------------------------- text */
+
+.tck-checkbox__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tck-checkbox__label {
+  color: var(--tck-text-default-body, #252b33);
+  font-weight: 400;
+}
+
+.tck-checkbox__sub-label {
+  color: var(--tck-text-default-caption, #4f5864);
+  font-weight: 400;
+}
+
+/* lg — label body-lg (20/28), sub-label body-md (16/24). */
+.tck-checkbox--lg .tck-checkbox__label {
+  font-size: var(--tck-paragraph-lg-size, 20px);
+  line-height: var(--tck-paragraph-lg-line-height, 28px);
+}
+.tck-checkbox--lg .tck-checkbox__sub-label {
+  font-size: var(--tck-paragraph-md-size, 16px);
+  line-height: var(--tck-paragraph-md-line-height, 24px);
+}
+
+/* md — label and sub-label both body-sm (14/20). */
+.tck-checkbox--md .tck-checkbox__label,
+.tck-checkbox--md .tck-checkbox__sub-label {
+  font-size: var(--tck-paragraph-sm-size, 14px);
+  line-height: var(--tck-paragraph-sm-line-height, 20px);
+}
+
+/* ------------------------------------------------------------------- base */
+
+/* Unselected is identical for both feedback values — Feedback only recolours
+   the filled box and the focus ring. */
+.tck-checkbox__box {
+  --tck-checkbox-bg: var(--tck-surface-default, #ffffff);
+  --tck-checkbox-border: var(--tck-border-default, #c8d0da);
+  --tck-checkbox-glyph-color: var(--tck-icon-primary-on-color, #fbfcfd);
+}
+
+.tck-checkbox--feedback-default .tck-checkbox__control {
+  --tck-checkbox-focus-ring: var(--tck-border-primary-focus, #38404a);
+}
+.tck-checkbox--feedback-error .tck-checkbox__control {
+  --tck-checkbox-focus-ring: var(--tck-border-error-focus, #c94040);
+}
+
+/* ---------------------------------------------------------- filled: default */
+
+.tck-checkbox--feedback-default .tck-checkbox__input:checked ~ .tck-checkbox__box,
+.tck-checkbox--feedback-default
+  .tck-checkbox__input:indeterminate
+  ~ .tck-checkbox__box {
+  --tck-checkbox-bg: var(--tck-surface-primary-default, #252b33);
+  --tck-checkbox-border: var(--tck-border-primary-default, #38404a);
+}
+
+/* ------------------------------------------------------------ filled: error */
+
+.tck-checkbox--feedback-error .tck-checkbox__input:checked ~ .tck-checkbox__box,
+.tck-checkbox--feedback-error
+  .tck-checkbox__input:indeterminate
+  ~ .tck-checkbox__box {
+  --tck-checkbox-bg: var(--tck-surface-error-default, #c94040);
+  --tck-checkbox-border: var(--tck-border-error-default, #c94040);
+}
+
+/* ------------------------------------------------------------------ hover */
+
+/* Figma "hover/default" effect: drop shadows + a 4px inner tint ring. */
+.tck-checkbox__input:hover:not(:disabled) ~ .tck-checkbox__box {
+  --tck-checkbox-bg: var(--tck-surface-primary-default-subtle-hover, #f0f3f7);
+  box-shadow: 0 1px 3px 0 rgba(37, 43, 51, 0.1),
+    0 0 0 1px rgba(37, 43, 51, 0.5), 0 1px 1px 0 rgba(37, 43, 51, 0.2),
+    inset 0 0 0 4px rgba(37, 43, 51, 0.2);
+}
+
+.tck-checkbox--feedback-default
+  .tck-checkbox__input:hover:not(:disabled):checked
+  ~ .tck-checkbox__box,
+.tck-checkbox--feedback-default
+  .tck-checkbox__input:hover:not(:disabled):indeterminate
+  ~ .tck-checkbox__box {
+  --tck-checkbox-bg: var(--tck-surface-primary-default-hover, #161a20);
+  --tck-checkbox-glyph-color: var(--tck-icon-primary-on-color-hover, #f0f3f7);
+}
+
+/* Figma "hover/error": same geometry, error-tinted shadows. */
+.tck-checkbox--feedback-error
+  .tck-checkbox__input:hover:not(:disabled):checked
+  ~ .tck-checkbox__box,
+.tck-checkbox--feedback-error
+  .tck-checkbox__input:hover:not(:disabled):indeterminate
+  ~ .tck-checkbox__box {
+  --tck-checkbox-bg: var(--tck-surface-error-default-hover, #a82222);
+  --tck-checkbox-glyph-color: var(--tck-icon-primary-on-color-hover, #f0f3f7);
+  box-shadow: 0 1px 3px 0 rgba(201, 64, 64, 0.1),
+    0 0 0 1px rgba(201, 64, 64, 0.5), 0 1px 1px 0 rgba(201, 64, 64, 0.2),
+    inset 0 0 0 4px rgba(201, 64, 64, 0.2);
+}
+
+/* --------------------------------------------------------------- disabled */
+
+.tck-checkbox__input:disabled ~ .tck-checkbox__box {
+  --tck-checkbox-bg: var(--tck-surface-disabled-default, #f9f9f9) !important;
+  --tck-checkbox-border: var(--tck-border-disabled-default, #f0f3f7) !important;
+  --tck-checkbox-glyph-color: var(
+    --tck-icon-disabled-on-color,
+    #8695a7
+  ) !important;
+  box-shadow: none;
+}
+
+.tck-checkbox--disabled .tck-checkbox__label,
+.tck-checkbox--disabled .tck-checkbox__sub-label {
+  opacity: 0.5;
+}
+
+/* Respect users who ask for reduced motion (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  .tck-checkbox__box,
+  .tck-checkbox__glyph {
+    transition: none;
+  }
+}
