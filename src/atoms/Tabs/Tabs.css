@@ -1,0 +1,133 @@
+/* Tabs — token-driven. Every colour is a design-token CSS variable with the
+   Figma value as its fallback, so themes override without touching this file. */
+
+.tck-tabs {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  border-bottom: var(--tck-border-width-xs, 1px) solid
+    var(--tck-border-default, #c8d0da);
+  font-family: var(--tck-font-paragraph, 'Inter', system-ui, sans-serif);
+  /* Long bars scroll instead of truncating, so every tab stays reachable
+     at narrow widths (WCAG 1.4.10). */
+  overflow-x: auto;
+}
+
+/* --------------------------------------------------------------- bar surface */
+
+.tck-tabs--bg-filled {
+  background-color: var(--tck-surface-default, #ffffff);
+}
+
+.tck-tabs--bg-transparent {
+  background-color: transparent;
+}
+
+/* ---------------------------------------------------------------------- tab */
+
+.tck-tabs__tab {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: var(--tck-tabs-pad-y) var(--tck-tabs-pad-x);
+  border: 0;
+  border-radius: var(--tck-border-radius-none, 0);
+  background-color: transparent;
+  color: var(--tck-text-default-placeholder, #687384);
+  font-family: inherit;
+  font-size: var(--tck-tabs-font-size);
+  font-weight: var(--tck-tabs-font-weight);
+  line-height: var(--tck-tabs-line-height);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.tck-tabs__label {
+  overflow-wrap: anywhere;
+}
+
+/* Inset ring so the focus outline is never clipped by the scrolling bar. */
+.tck-tabs__tab:focus-visible {
+  outline: 2px solid var(--tck-focus-ring, #2563eb);
+  outline-offset: -2px;
+}
+
+.tck-tabs__tab:hover:not(:disabled):not([aria-selected='true']) {
+  color: var(--tck-text-default-body, #252b33);
+}
+
+.tck-tabs__tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------- sizes */
+
+/* default — 16/24 medium text in 8px padding (40px tall). */
+.tck-tabs--size-default {
+  --tck-tabs-pad-y: 8px;
+  --tck-tabs-pad-x: 8px;
+  --tck-tabs-font-size: var(--tck-paragraph-md-size, 16px);
+  --tck-tabs-line-height: var(--tck-paragraph-md-line-height, 24px);
+  --tck-tabs-font-weight: 500;
+}
+
+/* lg — 20/28 regular text in 12px padding (52px tall). */
+.tck-tabs--size-lg {
+  --tck-tabs-pad-y: 12px;
+  --tck-tabs-pad-x: 20px;
+  --tck-tabs-font-size: var(--tck-paragraph-lg-size, 20px);
+  --tck-tabs-line-height: var(--tck-paragraph-lg-line-height, 28px);
+  --tck-tabs-font-weight: 400;
+}
+
+/* wide — 16px more breathing room on each side, per size. */
+.tck-tabs--size-default.tck-tabs--width-wide {
+  --tck-tabs-pad-x: 24px;
+}
+
+.tck-tabs--size-lg.tck-tabs--width-wide {
+  --tck-tabs-pad-x: 36px;
+}
+
+/* ------------------------------------------------------ type: default (underline) */
+
+.tck-tabs--type-default .tck-tabs__tab[aria-selected='true'] {
+  color: var(--tck-text-default-body, #252b33);
+}
+
+/* The indicator sits on top of the bar's own rule rather than above it. */
+.tck-tabs--type-default .tck-tabs__tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: calc(-1 * var(--tck-border-width-xs, 1px));
+  left: 0;
+  height: var(--tck-border-width-xs, 1px);
+  background-color: var(--tck-icon-primary-on-color-subtle, #38404a);
+}
+
+/* ---------------------------------------------------------- type: filled */
+
+.tck-tabs--type-filled .tck-tabs__tab[aria-selected='true'] {
+  background-color: var(--tck-surface-primary-default, #252b33);
+  color: var(--tck-text-primary-on-color, #fbfcfd);
+}
+
+.tck-tabs--type-filled
+  .tck-tabs__tab[aria-selected='true']:hover:not(:disabled) {
+  background-color: var(--tck-surface-primary-default-hover, #161a20);
+}
+
+/* Respect users who ask for reduced motion (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  .tck-tabs__tab {
+    transition: none;
+  }
+}
